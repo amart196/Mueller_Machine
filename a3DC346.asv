@@ -1,0 +1,36 @@
+function DC346a3 = a3DC346(Lam,epsilon,a1,d);
+
+w=6;
+a3 = linspace(-0.0001,0.0001,6);
+% e1 = mean(epsilon(1,:));
+% e3 = mean(epsilon(2,:));
+% a1 = mean(a1);
+e1 = 2.5
+e3 = 2.2
+a1 = 0.00005;
+n = 0;
+for y = 1:length(a3)
+    n = n+1;
+        a3Train(n)=a3(y);
+        MM1=PWDC346(Lam,56.3,0,e1,e3,a1,0,1,d);
+        MM2=PWDC346(Lam,36,0,e1,e3,a1,0,1,d);
+        MM3=PWDC346(Lam,30,0,e1,e3,a1,0,0,d);
+        MM4=PWDC346(Lam,0,0,e1,e3,a1,0,0,d);
+        close all
+        Ydata1(n,:,:)=CalculateDC346Parameters(Lam,d,MM1,MM2,MM3,MM4);
+    end
+end
+
+b=0;
+m=length(a3Train);
+for x = 1:length(Lam);
+    B(m*b+1:m*(b+1),:) = squeeze(Ydata1(:,x,:));
+    a3Train2((m*b)+1:m*(b+1))=a3Train(1:length(a3Train));
+    b=b+1;
+end
+a3Train2=a3Train2*10000;
+DC346a3=svmtrain(a1Train2',B,'-s 3 -c 10 -t 1 -g 1 -r 1 -d 3');
+end
+
+
+

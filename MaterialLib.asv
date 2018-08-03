@@ -1,0 +1,1632 @@
+function [epsilon,alpha,mu] = MaterialLib(material,Lam)
+
+k = length(Lam);
+epsilon = ones(3,k);
+mu = ones(3,k);
+alpha = 0;
+
+switch material
+    case 'EDSnoG'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.06482*lam2./(lam2 - 0.0103027)...
+                     +2.3712*lam2./(lam2 - 92.3287) + 1.2728;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.07588*lam2./(lam2 - 0.0101915)...
+                     +2.64847*lam2./(lam2 - 94.8497) + 1.2751;
+       lam2 = Lam.^2;
+       
+    case 'oil'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.3;
+       epsilon(2,:) = 2.3;
+       epsilon(3,:) = 2.3;
+       
+    case '+EDS'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.06482*lam2./(lam2 - 0.0103027)...
+                     +2.3712*lam2./(lam2 - 92.3287) + 1.2728;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.07588*lam2./(lam2 - 0.0101915)...
+                     +2.64847*lam2./(lam2 - 94.8497) + 1.2751;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0146441)./(lam2 - 100.202^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.0301548)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case '-EDS'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.06482*lam2./(lam2 - 0.0103027)...
+                     +2.3712*lam2./(lam2 - 92.3287) + 1.2728;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.07588*lam2./(lam2 - 0.0101915)...
+                     +2.64847*lam2./(lam2 - 94.8497) + 1.2751;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0146441)./(lam2 - 100.202^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.0301548)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+    case '-EDS2'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.01034*lam2./(lam2 - 0.011164)...
+                     +1.76335*lam2./(lam2 - 100.018) + 1.30154;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.04735*lam2./(lam2 - 0.010818)...
+                     +1.74104*lam2./(lam2 - 90.0) + 1.2775;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.01416)./(lam2 - 104^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.02494)./(lam2 - 104^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case '-EDS3'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.0497*lam2./(lam2 - 0.010053)...
+                     +3.95072*lam2./(lam2 - 89.8587) + 1.32465;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.050053*lam2./(lam2 - 0.00999)...
+                     +4.2*lam2./(lam2 - 90.3919) + 1.33484;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0138865)./(lam2 - 103.146^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.023384)./(lam2 - 103.06^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+EDS3'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.0497*lam2./(lam2 - 0.010053)...
+                     +3.95072*lam2./(lam2 - 89.8587) + 1.32465;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.050053*lam2./(lam2 - 0.00999)...
+                     +4.2*lam2./(lam2 - 90.3919) + 1.33484;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0138865)./(lam2 - 103.146^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.023384)./(lam2 - 103.06^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+
+    case '-EDS4dd'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.05044*lam2./(lam2 - 0.00957123)...
+                     +2.70014*lam2./(lam2 - 96.1541) + 1.25829;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.0621*lam2./(lam2 - 0.00943784)...
+                     +3.05126*lam2./(lam2 - 99.2869) + 1.25893;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0130017)./(lam2 - 100.86^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.0159)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case '-EDS5'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.09712*lam2./(lam2 - 0.010969)...
+                     +1.30854*lam2./(lam2 - 92.4555) + 1.19997;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.0899*lam2./(lam2 - 0.011018)...
+                     +1.54089*lam2./(lam2 - 93.5765) + 1.22046;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.014067)./(lam2 - 104^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.024733)./(lam2 - 104^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+              
+    case '-EDS6'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.01579*lam2./(lam2 - 0.00957123)...
+                     +8.17387*lam2./(lam2 - 96.1541) + 1.25829;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.02724*lam2./(lam2 - 0.00943784)...
+                     +8.73383*lam2./(lam2 - 99.2869) + 1.25893;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0130)./(lam2 - 104^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.013076)./(lam2 - 153^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case '-EDS6test'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.01579*lam2./(lam2 - 0.00957123)...
+                     +8.17387*lam2./(lam2 - 96.1541) + 1.25829 + 0.1;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.02724*lam2./(lam2 - 0.00943784)...
+                     +8.73383*lam2./(lam2 - 99.2869) + 1.25893 + 0.1;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0130)./(lam2 - 104^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.013076)./(lam2 - 153^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case '-EDS7'       
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.01579*lam2./(lam2 - 0.009571)...
+                     +1.2201*lam2./(lam2 - 96.1541) + 1.23893;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.02724*lam2./(lam2 - 0.00943784)...
+                     +1.49741*lam2./(lam2 - 99.2869) + 1.23941;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0130016)./(lam2 - 100.861^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.013017)./(lam2 - 100.861^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       %reduced chi square -5.74903
+       %fitted from data set atm-2-34-1, 1 transmission 3 reflection AOI
+       %d = 225.5
+
+       case '+EDS7'
+
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.01579*lam2./(lam2 - 0.009571)...
+                     +1.2201*lam2./(lam2 - 96.1541) + 1.23893;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.02724*lam2./(lam2 - 0.00943784)...
+                     +1.49741*lam2./(lam2 - 99.2869) + 1.23941;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0130016)./(lam2 - 100.861^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.013017)./(lam2 - 100.861^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);   
+       
+    case '+quartz'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.07044083*lam2./(lam2 - 0.0100585997)...
+                     +1.10202242*lam2./(lam2 - 100) + 1.28604141;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.09509924*lam2./(lam2 - 0.0102101864)...
+                     +1.15662475*lam2./(lam2 - 100) + 1.28851804;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.0408)./(lam2 - 87^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case '-quartz'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.07044083*lam2./(lam2 - 0.0100585997)...
+                     +1.10202242*lam2./(lam2 - 100) + 1.28604141;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.09509924*lam2./(lam2 - 0.0102101864)...
+                     +1.15662475*lam2./(lam2 - 100) + 1.28851804;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = -Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = -Lam.^3*(-0.0408)./(lam2 - 87^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       case '-quartzf2'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.07044083*lam2./(lam2 - 0.0100585997)...
+                     +1.10202242*lam2./(lam2 - 100) + 1.687604141;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.09509924*lam2./(lam2 - 0.0102101864)...
+                     +1.15662475*lam2./(lam2 - 100) + 2.18851804;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.04)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+     case '+quartzf1'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.07044083*lam2./(lam2 - 0.0100585997)...
+                     +1.10202242*lam2./(lam2 - 100) + 1.08604141;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.09509924*lam2./(lam2 - 0.0102101864)...
+                     +1.15662475*lam2./(lam2 - 100) + 1.68851804;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = Lam.^3*(-.03)./(lam2 - 87^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+quartzf3'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129))+2.559276;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0129))+2.132668;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = Lam.^3*(-.03)./(lam2 - 87^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+quartzf4'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.3;
+       epsilon(2,:) = epsilon(1,:);
+%        epsilon(3,:) = 2.7+(Lam-900).^1.8/300000;
+       epsilon(3,:) = 2.9;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = Lam.^3*(-.03)./(lam2 - 87^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+
+       
+     case '-quartzfake'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.07044083*lam2./(lam2 - 0.0100585997)...
+                     +1.10202242*lam2./(lam2 - 100) + 1.28604141+0.04;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.09509924*lam2./(lam2 - 0.0102101864)...
+                     +1.15662475*lam2./(lam2 - 100) + 1.28851804+0.04;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = -Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+       alpha(3,3,:) = -Lam.^3*(-0.0408)./(lam2 - 87^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case 'benzil' %Permittivity fitted from Winchell
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.362594971262147*lam2./(lam2 - 0.089450205295623)...
+                     +0.002094898248620*lam2./(lam2 - 100) + 2.261231230145771;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.720603722585911*lam2./(lam2 - 0.052558654337134)...
+                     +1.119904777455565*lam2./(lam2 - 100) + 1.970993523621657;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018182846450825)./(lam2 - 2.261076025579891e+02^2).^2 + Lam.^3*(-2.542730583852535e-04)./(lam2 - 3.998643684712037e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.040288387086137)./(lam2 - 185^2).^2 + Lam.^3*(0.001838594899889)./(lam2 - 3.825442350503149e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+     case 'benzilW' %Permittivity fitted from Winchell
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.362594971262147*lam2./(lam2 - 0.089450205295623)...
+                     +0.002094898248620*lam2./(lam2 - 100) + 2.261231230145771;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.720603722585911*lam2./(lam2 - 0.052558654337134)...
+                     +1.119904777455565*lam2./(lam2 - 100) + 1.970993523621657;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018188784066723)./(lam2 - 2.246424051401134e+02^2).^2 + Lam.^3*(-2.203081720557956e-04)./(lam2 - 4.024261493181616e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.061869090451185)./(lam2 - 1.020904673161141e+02^2).^2 + Lam.^3*(0.001296683426287)./(lam2 - 3.580280428749454e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+    case 'benzilNew-' %Fitted from our 4PEM data
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.411575873259028*lam2./(lam2 - 0.051239153551240)...
+                     +0.006284581953241*lam2./(lam2 - 100) + 1.567521708822888;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.402793672352707*lam2./(lam2 - 0.037937482177612)...
+                     +0.111991783293876*lam2./(lam2 - 100) + 1.636994452740613;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.018273784758797)./(lam2 - 1.814379747812593e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(0.028210387747872)./(lam2 - 50.101266493023665^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);       
+       
+    case 'benzilNew+' %Fitted from our 4PEM data
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.411575873259028*lam2./(lam2 - 0.051239153551240)...
+                     +0.006284581953241*lam2./(lam2 - 100) + 1.567521708822888;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.402793672352707*lam2./(lam2 - 0.037937482177612)...
+                     +0.111991783293876*lam2./(lam2 - 100) + 1.636994452740613;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.019531709687459)./(lam2 - 1.853516984377617e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.015384677872879)./(lam2 - 2.202943920708198e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);   
+       
+    case 'benzilAll' %Fitted from our 4PEM data Transmission at AOI 0 to 30
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.357007532353591*lam2./(lam2 - 0.054636029826332)...
+                     +0.024260792263416*lam2./(lam2 - 100) + 1.515674186529924;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.389107379450391*lam2./(lam2 - 0.037195758209867)...
+                     +0.012558496115677*lam2./(lam2 - 100) + 1.541567030594699;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.019531709687459)./(lam2 - 1.853516984377617e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.023611080283666)./(lam2 - 2.209207424670970e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);   
+       
+    case 'benzilhighAOI' %Fitted from our 4PEM data Transmission at AOI 20 to 30
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.392947466606210*lam2./(lam2 - 0.055737205498259)...
+                     +0.056868336896110*lam2./(lam2 - 100) + 1.600688529557324-(0.0004*1i);
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.422611685389030*lam2./(lam2 - 0.039076815293170)...
+                     +0.011319138102822*lam2./(lam2 - 100) + 1.634113496081131;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018182846450825)./(lam2 - 2.261076025579891e+02^2).^2 + Lam.^3*(-2.542730583852535e-04)./(lam2 - 3.998643684712037e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.040288387086137)./(lam2 - 185^2).^2 + Lam.^3*(0.001838594899889)./(lam2 - 3.825442350503149e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+    case 'benzilhighAOI2' %Fitted from our 4PEM data Transmission at AOI 0 5 10 15 20 25 30 data taken 2/21/17
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.476327633266485*lam2./(lam2 - 0.057886905813896)...
+                     +0.113733550763747*lam2./(lam2 - 100) + 1.860540227371998;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.498560497440972*lam2./(lam2 - 0.041922676902929)...
+                     +0.005659885756444*lam2./(lam2 - 100) + 1.917168395206039;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018191088064292)./(lam2 - 2.246068400981757e+02^2).^2 + Lam.^3*(-2.196589986719902e-04)./(lam2 - 4.025017359163624e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.031464066474354)./(lam2 - 2.003108342971845e+02^2).^2 + Lam.^3*(0.001623021314651)./(lam2 - 3.752762646511754e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+    
+    case 'benzilhighAOI3' %the permittivity is completely well solved here for 2/21/17 crystal at [-75 -0.3 0]; then fitted a11 to MM
+             alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.714490777072713*lam2./(lam2 - 0.066265215393410)...
+                     +0.170599973227403*lam2./(lam2 - 100) + 2.447034789307813;%2.44
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.659221219661503*lam2./(lam2 - 0.056073248624772)...
+                     +0.002829964108187*lam2./(lam2 - 100) + 2.627273325439062;%2.62
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018188784066723)./(lam2 - 2.246424051401134e+02^2).^2 + Lam.^3*(-2.203081720557956e-04)./(lam2 - 4.024261493181616e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.061869090451185)./(lam2 - 1.020904673161141e+02^2).^2 + Lam.^3*(0.001296683426287)./(lam2 - 3.580280428749454e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+    
+     case 'benzilhighAOI4' %the permittivity is completely well solved here for 2/21/17 crystal at [-75 -0.3 0]; then fitted a11 to MM
+             alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.541333266744690*lam2./(lam2 - 0.075005333206461)...
+                     +0.255899927315726*lam2./(lam2 - 100) + 1.750456978874723;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.517184747153362*lam2./(lam2 - 0.068391048239999)...
+                     +0.001442685272264*lam2./(lam2 - 100) + 1.848760899316557;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.019034843737769)./(lam2 - 2.138921987351853e+02^2).^2 + Lam.^3*(-1.966456757103028e-04)./(lam2 - 4.046052627291736e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.030934545225637)./(lam2 - 51.045233658057090^2).^2 + Lam.^3*(0.001945025139387)./(lam2 - 3.900221725715030e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+case 'benzilhighAOI5' %the permittivity is completely well solved here for 2/21/17 crystal at [-75 -0.3 0]; then fitted a11 to MM
+             alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.538194813944252*lam2./(lam2 - 0.071412527715291)...
+                     +0.255864365283216*lam2./(lam2 - 100) + 1.727032593961817;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.523344214332219*lam2./(lam2 - 0.063521551254289)...
+                     +0.001632848964542*lam2./(lam2 - 100) + 1.814621081229787;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018751424018183)./(lam2 - 2.154716564970282e+02^2).^2 + Lam.^3*(-1.970898307362894e-04)./(lam2 - 4.041567798887870e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-.0135052927454962)./(lam2 - 54.952186819148210^2).^2 + Lam.^3*(6.483417131719815e-04)./(lam2 - 2.109239425005991e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+case 'benzilhighAOI6' %the permittivity is completely well solved here for 2/21/17 crystal at [96.5631 1.2816 0] and AOI offset +8.5; then fitted a11 to MM
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.700664366241162*lam2./(lam2 - 0.069461384396563)...
+                     +0.255899729270629*lam2./(lam2 - 100) + 2.448079464590394;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.649201840584321*lam2./(lam2 - 0.060099205395694)...
+                     +0.001414982259724*lam2./(lam2 - 100) + 2.620986574534602;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.018206990453375)./(lam2 - 2.226907263944655e+02^2).^2 + Lam.^3*(-1.797577765993540e-04)./(lam2 - 4.065457988078443e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.053395616596096)./(lam2 - 1.531357009741711e+02^2).^2 + Lam.^3*(6.483417140312323e-04)./(lam2 - 2.581137622568842e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'benzilhighAOI7' %this is for the fixed AOI offset of 8.5 degrees which was measured experimentally
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.071735647023031*lam2./(lam2 - 0.054013967794276)...
+                     +0.255899959042388*lam2./(lam2 - 100) + 1.903960744317421;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.554124663880704*lam2./(lam2 - 0.083864393005934)...
+                     +0.001414982058332*lam2./(lam2 - 100) + 2.449348617526036;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.009781473971096)./(lam2 - 2.992350770219475e+02^2).^2 + Lam.^3*(-3.013947019819612e-04)./(lam2 - 3.096103189022968e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.099999999580136)./(lam2 - 1.531356850451340e+02^2).^2 + Lam.^3*(6.483419638373479e-04)./(lam2 - 6.483419638373479e-04^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+    
+    case 'benzilxcut' %Fitted from our 4PEM data Transmission at AOI 20 to 30
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.392947466606210*lam2./(lam2 - 0.055737205498259)...
+                     +0.056868336896110*lam2./(lam2 - 100) + 1.600688529557324;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.422611685389030*lam2./(lam2 - 0.039076815293170)...
+                     +0.011319138102822*lam2./(lam2 - 100) + 1.634113496081131;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.019531709687459)./(lam2 - 1.853516984377617e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.02542220867417)./(lam2 - 1.421384843329456e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);   
+       
+    case 'benzilhighAOI30' %Fitted from our 4PEM data Transmission at only 30
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.366030076488218*lam2./(lam2 - 0.055273818724384)...
+                     +0.040584337171088*lam2./(lam2 - 100) + 1.487563190066047;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.394181769117466*lam2./(lam2 - 0.038996489028689)...
+                     +0.011209192926803*lam2./(lam2 - 100) + 1.516246725126315;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.019531709687459)./(lam2 - 1.853516984377617e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.045907116770911)./(lam2 - 63.242872758346200^2).^2;
+       
+    case 'benzilgood' %Fitted from our 4PEM data Transmission at only 30
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.392947466606210*lam2./(lam2 - 0.055737205498259)...
+                     +0.056868336896110*lam2./(lam2 - 100) + 1.600688529557324;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.422611685389030*lam2./(lam2 - 0.039076815293170)...
+                     +0.011319138102822*lam2./(lam2 - 100) + 1.634113496081131;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.019772106647535)./(lam2 - 1.820810854430947e+02^2).^2;
+
+       alpha(3,3,:) = Lam.^3*(-0.030012783992710)./(lam2 - 90.837049359198370^2).^2;
+       
+    case 'quartz no gyration'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.07044083*lam2./(lam2 - 0.0100585997)...
+                     +1.10202242*lam2./(lam2 - 100) + 1.28604141;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.09509924*lam2./(lam2 - 0.0102101864)...
+                     +1.15662475*lam2./(lam2 - 100) + 1.28851804;
+                 
+    case 'sapphire'
+        osc1A = [1.4313493,0.65054713,5.3414021];
+        osc1E = [0.0726631,0.1193242,18.028251].^2;
+        osc2A = [1.5039759,0.55069141,6.5927379];
+        osc2E = [0.0740288,0.1216529,20.072248].^2;
+        lam2 = (Lam/1000).^2;
+        for n = 1:k
+        epsilon(1,n) = sum(lam2(n)*osc1A./(lam2(n) - osc1E))+1;
+        epsilon(3,n) = sum(lam2(n)*osc2A./(lam2(n) - osc2E))+1; 
+        end
+        epsilon(2,:) = epsilon(1,:);
+        
+    case 'aBBO'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = -lam2*0.0155+0.0184./(lam2 - 0.0179)+2.7405;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = -lam2*0.0044+0.0128./(lam2 - 0.0156)+2.373;
+        
+    case 'LiNbO3'
+        osc1A = [2.6734,1.229,12.614];
+        osc1E = [0.01764,0.05914,474.6];
+        osc2A = [2.9804,0.5981,8.9543];
+        osc2E = [0.02047,0.0666,416.08];
+        lam2 = (Lam/1000).^2;
+        for n = 1:k
+        epsilon(1,n) = sum(lam2(n)*osc1A./(lam2(n) - osc1E))+1;
+        epsilon(3,n) = sum(lam2(n)*osc2A./(lam2(n) - osc2E))+1;
+        end
+        epsilon(2,:) = epsilon(1,:);
+        
+    case 'TiO2'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = 0.2441./(lam2 - 0.0803)+5.913;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = 0.3322./(lam2 - 0.0843)+7.197;
+        
+    case 'test'
+        epsilon(1,:) = ones(k,1)*3.0;
+        epsilon(2,:) = ones(k,1)*3.0;
+        epsilon(3,:) = ones(k,1)*3.15;
+    case 'test2'
+        epsilon(1,:) = ones(k,1)*2;
+        epsilon(2,:) = ones(k,1)*2.0818;
+        epsilon(3,:) = ones(k,1)*2.0818;
+    case 'orthorandom'
+        epsilon(1,:) = 3+1i*0.5;
+        epsilon(2,:) = 3.05+1i*0.51;
+        epsilon(3,:) = 3.06+1i*0.515;
+    case 'ADP'
+        %This includes just the epsilon from Zernike (1964)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (15.102464*lam2./(lam2 - 400))+(0.011125165./(lam2 - 0.01325366))+2.302842;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (5.919896*lam2./(lam2 - 400))+(0.009616676./(lam2 - 0.01298912))+2.163510;
+        alpha = zeros(3,3,k);
+        lam2 = Lam.^2;
+        alpha(1,2,:) = Lam.^3.*(0.021)./(lam2 - 109.7966^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+
+    case 'KDPnogyration'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.132668;
+        alpha = zeros(3,3,k);
+
+    case 'KDP1'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.132668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = -Lam.^3.*(0.0198)./(lam2 - 109.7966^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+    case 'KDPtest'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.132668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = -Lam.^3.*(0.4747)./(lam2 - 97.8498^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+    case 'KDPtest2'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.132668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = -Lam.^3.*(0.039455508253031)./(lam2 - 1.116827897779586e+02^2).^2;
+        alpha(2,1,:) = alpha(1,2,:); 
+        
+    case 'KDPtest3'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.132668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(.02)./(lam2 - 1.116827897779586e+02^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'KDPKonstantinova'
+        %This includes epsilon from Zernike (1964) and alpha from
+        %Konstantinova (2000)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.132668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(.023)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'KDPfalse'
+        %This includes epsilon from Zernike (1964) and alpha from
+        %Konstantinova (2000)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.62668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(.090)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+                
+    case 'KDPfalse2'
+        %This includes epsilon from Zernike (1964) and alpha from
+        %Konstantinova (2000)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129426))+2.259276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 400))+(0.008637494./(lam2 - 0.0122810))+2.402668;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(.15)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+                
+    case 'KDPfalse3'
+        %This includes epsilon from Zernike (1964) and alpha from
+        %Konstantinova (2000)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129))+2.559276;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 5))+(0.008637494./(lam2 - 0.15))+1.632668+0.5*lam2;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(.023)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'KDPfalse4'
+        %This includes epsilon from Zernike (1964) and alpha from
+        %Konstantinova (2000)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (13.00522*lam2./(lam2 - 400))+(0.01008956./(lam2 - 0.0129))+2.059276-.0001*Lam;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (3.2279924*lam2./(lam2 - 5))+(0.008637494./(lam2 - 0.15))+1.932668+.0001*Lam;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,1,:) = Lam.^3*(0.0198)./(lam2 - 93^2).^2;
+        alpha(3,3,:) = Lam.^3*(-0.0408)./(lam2 - 87^2).^2;
+        alpha(2,2,:) = alpha(1,1,:);   
+        
+    case 'KAP'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (-0.013296131.*lam2)+(0.037318762./(lam2 - (0.175493731^2)))+2.663434655;
+        epsilon(2,:) = 2.670444937+(0.031617528./(lam2-(0.208293225^2)))-(0.004014395.*lam2);
+        epsilon(3,:) = 2.196073191+(0.015025722./(lam2-(0.190981743^2)))-(0.006100780.*lam2);
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(0)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'KAPfake'
+        lam2 = (Lam/1000).^2;
+        epsilon(3,:) = (-0.013296131.*lam2)+(0.037318762./(lam2 - (0.175493731^2)))+2.663434655;
+        epsilon(2,:) = 2.670444937+(0.031617528./(lam2-(0.208293225^2)))-(0.004014395.*lam2);
+        epsilon(1,:) = 2.196073191+(0.015025722./(lam2-(0.190981743^2)))-(0.006100780.*lam2);
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(0.01)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'KAPfakeNoG'
+        lam2 = (Lam/1000).^2;
+        epsilon(3,:) = (-0.013296131.*lam2)+(0.037318762./(lam2 - (0.175493731^2)))+2.663434655;
+        epsilon(2,:) = 2.670444937+(0.031617528./(lam2-(0.208293225^2)))-(0.004014395.*lam2);
+        epsilon(1,:) = 2.196073191+(0.015025722./(lam2-(0.190981743^2)))-(0.006100780.*lam2);
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(0)./(lam2 - 100^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'DKDPnoG'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (2.2470*lam2./(lam2 - 126.9205))+(0.0097./(lam2 - 0.0156))+2.2409;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (0.7844*lam2./(lam2 - 123.4032))+(0.0086./(lam2 - 0.0120))+2.1260;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        
+    case 'DKDP'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (2.2470*lam2./(lam2 - 126.9205))+(0.0097./(lam2 - 0.0156))+2.2409;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (0.7844*lam2./(lam2 - 123.4032))+(0.0086./(lam2 - 0.0120))+2.1260;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,2,:) = Lam.^3.*(0.0178)./(lam2 - 220^2).^2;
+        alpha(2,1,:) = alpha(1,2,:);
+        
+    case 'Linog'%Herbst(1976)
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (1.37623*lam2./(lam2 - 0.0350832))+(1.06745*lam2./(lam2 - 169))+2.03132;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (1.08807*lam2./(lam2 - 0.0313810))+(0.554582*lam2./(lam2 - 158.76))+1.83086;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        
+    case 'Li'%Herbst(1976) with fake gyration from +EDSe fittings    
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (1.37623*lam2./(lam2 - 0.0350832))+(1.06745*lam2./(lam2 - 169))+2.03132;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (1.08807*lam2./(lam2 - 0.0313810))+(0.554582*lam2./(lam2 - 158.76))+1.83086;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,1,:) = Lam.^3*(0.0684)./(lam2 - 183.3658^2).^2;
+        alpha(3,3,:) = Lam.^3*(-.2584)./(lam2 - 100^2).^2;
+        alpha(2,2,:) = alpha(1,1,:);
+        
+    case 'Li2'%Full dispersion relations for e and a obtained from atm-2-202-1_ (0 and -30 deg) 
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (1.50675*lam2./(lam2 - 0.025))+(1.28*lam2./(lam2 - 169))+1.829;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (1.19793*lam2./(lam2 - 0.0219346))+(0.25*lam2./(lam2 - 158.76))+1.65382;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,1,:) = Lam.^3*(0.0695675)./(lam2 - 183.523^2).^2;
+        alpha(3,3,:) = Lam.^3*(-0.2069395)./(lam2 - 216.294^2).^2;
+        alpha(2,2,:) = alpha(1,1,:);
+        
+    case 'Linog3'
+        lam2 = (Lam/1000).^2;
+        epsilon(1,:) = (1.37623*lam2./(lam2 - 0.0350832))+(1.06745*lam2./(lam2 - 169))+2.03132;
+        epsilon(2,:) = epsilon(1,:);
+        epsilon(3,:) = (1.08807*lam2./(lam2 - 0.0313810))+(0.554582*lam2./(lam2 - 158.76))+1.83086;
+        lam2 = Lam.^2;
+        alpha = zeros(3,3,k);
+        alpha(1,1,:) = -0.00035
+        alpha(3,3,:) = 0
+        alpha(2,2,:) = -0.00035
+        
+    case '+EDSE'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.066482*lam2./(lam2 - 0.0103027)...
+                     +2.3712*lam2./(lam2 - 92.3287) + 1.2728;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.07588*lam2./(lam2 - 0.0101915)...
+                     +2.64847*lam2./(lam2 - 94.8497) + 1.2751;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0355)./(lam2 - 114.1215^2).^2;
+       alpha(3,3,:) = Lam.^3*(.03014)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+EDSE2'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.010041058238459*lam2./(lam2 - 0.049037056913572)...
+                     +2.821499924945453*lam2./(lam2 - 79.084179459799570) + 1.285888437015323;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.988675609506619*lam2./(lam2 - 0.049400354624427)...
+                     +2.278909292875695*lam2./(lam2 - 95.764756161587850) + 1.324100829891388;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0355)./(lam2 - 114.1215^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.087674999999956)./(lam2 - 1.250500000000000e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+EDSE3'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.0884*lam2./(lam2 - 0.0103027)...
+                     +8.8150*lam2./(lam2 - 92.3287) + 1.2728;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.0635*lam2./(lam2 - 0.0101915)...
+                     +2.6575*lam2./(lam2 - 94.8497) + 1.2751;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0355)./(lam2 - 114.1215^2).^2;
+       alpha(3,3,:) = Lam.^3*(-1.3213)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+EDSE4'%This is the intermediate result
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.06982*lam2./(lam2 - 0.0120323)...
+                     +2.60047*lam2./(lam2 - 70.0002) + 1.252;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.06716*lam2./(lam2 - 0.0116547)...
+                     +3.99999*lam2./(lam2 - 99.9998) + 1.25897;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0173619)./(lam2 - 114.747^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.0264181)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '-EDSE4'%This is the intermediate result
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.06982*lam2./(lam2 - 0.0120323)...
+                     +2.60047*lam2./(lam2 - 70.0002) + 1.252;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.06716*lam2./(lam2 - 0.0116547)...
+                     +3.99999*lam2./(lam2 - 99.9998) + 1.25897;
+       lam2 = Lam.^2; 
+       alpha(1,1,:) = Lam.^3*(0.0173619)./(lam2 - 114.747^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.0264181)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '-EDSE4polar' %This is the result after refitting gyration with polar map
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.10387*lam2./(lam2 - 0.0127002)...
+                     +0.500036*lam2./(lam2 - 50.7661) + 1.27344;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.12003*lam2./(lam2 - 0.0121639)...
+                     +1.60328*lam2./(lam2 - 130) + 1.26142;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = 5.875*10^-5;
+       alpha(3,3,:) = -8.705*10^-5;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '-EDSE4update' %This is the result after refitting reflection data final time
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.10387*lam2./(lam2 - 0.0127002)...
+                     +0.500036*lam2./(lam2 - 50.7661) + 1.27344;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.12003*lam2./(lam2 - 0.0121639)...
+                     +1.60328*lam2./(lam2 - 130) + 1.26142;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.0173619)./(lam2 - 114.747^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.0245107)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case '+EDSE4update' %This is the result after refitting reflection data final time
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.10387*lam2./(lam2 - 0.0127002)...
+                     +0.500036*lam2./(lam2 - 50.7661) + 1.27344;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.12003*lam2./(lam2 - 0.0121639)...
+                     +1.60328*lam2./(lam2 - 130) + 1.26142;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0173619)./(lam2 - 114.747^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.0245107)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'flower' %This is the result after refitting reflection data final time
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.10387*lam2./(lam2 - 0.0127002)...
+                     +0.500036*lam2./(lam2 - 50.7661) + 1.27344;
+       epsilon(2,:) = epsilon(1,:)+0.3;
+       epsilon(3,:) = 1.12003*lam2./(lam2 - 0.0121639)...
+                     +1.60328*lam2./(lam2 - 130) + 1.26142;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0173619)./(lam2 - 114.747^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.0245107)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'testedse'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.407;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.407;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0173619)./(lam2 - 114.747^2).^2;
+       alpha(3,3,:) = Lam.^3*(0.0245107)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'TeO2'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.584*lam2./(lam2 - 0.1342^2)...
+                     +1.157*lam2./(lam2 - 0.2638^2) + 1;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.823*lam2./(lam2 - 0.1342^2)...
+                     +1.542*lam2./(lam2 - 0.2631^2) + 1;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-.073)./(lam2 - 240^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.1704181)./(lam2 - 134.927^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'TeO2_2'%This was fit to data set 'atm-2-190-2' with R2 ~0.92
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.68952*lam2./(lam2 - 0.0283529)...
+                     +1.44569*lam2./(lam2 - 0.0763474) + 1.13667;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 3.20682*lam2./(lam2 - 0.03343)...
+                     +1.64072*lam2./(lam2 - 0.079051) + 1.2;
+%        epsilon(3,:) = 2.48952*lam2./(lam2 - 0.005)...
+%                      +1.39294*lam2./(lam2 - 0.0713481) + 0.947943;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.0709609)./(lam2 - 244.27^2).^2;
+       alpha(3,3,:) = Lam.^3*(+0.327758)./(lam2 - 120.996^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'TeO2_3'%Trash set
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 3.999983676228403*lam2./(lam2 - 0.106654588661384)...
+                     +2.999999628816449*lam2./(lam2 - 0.106288889232533) + 1.999999709146938;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.000028356596289*lam2./(lam2 - 0.105723455904108)...
+                     +1.000010931969733*lam2./(lam2 - 0.105808785713761) + 2.63703217519570;
+%        epsilon(3,:) = 2.48952*lam2./(lam2 - 0.005)...
+%                      +1.39294*lam2./(lam2 - 0.0713481) + 0.947943;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.06654)./(lam2 - 244.27^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.327758)./(lam2 - 120.996^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'TeO2_4'%Final set from fittings on 7/5/18
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 4.30178*lam2./(lam2 - 0.0396797) + 0.3999;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 4.89502*lam2./(lam2 - 0.0425801) + 0.4;
+%        epsilon(3,:) = 2.48952*lam2./(lam2 - 0.005)...
+%                      +1.39294*lam2./(lam2 - 0.0713481) + 0.947943;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.06658)./(lam2 - 244.27^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.137222390481206)./(lam2 - 250^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'TeO2_2noG'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.48952*lam2./(lam2 - 0.005)...
+                     +1.39294*lam2./(lam2 - 0.0713481) + 0.947943;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.99181*lam2./(lam2 - 0.0181398)...
+                     +1.32386*lam2./(lam2 - 0.0758381) + 1.09022;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.068968)./(lam2 - 250.66^2).^2;
+       alpha(3,3,:) = Lam.^3*(0)./(lam2 - 134.786^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       
+       case 'TeO2_2'%This was fit to data set 'atm-2-190-2' with R2 ~0.92
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.48952*lam2./(lam2 - 0.005)...
+                     +1.39294*lam2./(lam2 - 0.0713481) + 0.947943;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.99181*lam2./(lam2 - 0.0181398)...
+                     +1.32386*lam2./(lam2 - 0.0758381) + 1.09022;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(-0.068968)./(lam2 - 250.66^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.239146)./(lam2 - 134.786^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       case 'TeO2nog'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.584*lam2./(lam2 - 0.1342^2)...
+                     +1.157*lam2./(lam2 - 0.2638^2) + 1;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.823*lam2./(lam2 - 0.1342^2)...
+                     +1.542*lam2./(lam2 - .2631^2) + 1;
+       lam2 = Lam.^2;
+       alpha(1,1,:) =0;
+       alpha(3,3,:) = Lam.^3*(-0.239146)./(lam2 - 134.786^2).^2;
+%        alpha(2,2,:) = alpha(1,1,:);
+    
+       case 'LAS'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (104.1).*(.1054^2).*lam2./(lam2 - (.1054^2))...
+                     -(1.46*10^-3).*(1.02021^2).*lam2./(lam2 - (1.02021^2)) + 1;
+       epsilon(2,:) = (97.5).*(.1087^2).*lam2./(lam2 - (.1087^2))...
+                     -(3.56*10^-3).*(8.4139^2).*lam2./(lam2 - (8.4139^2)) + 1;
+       epsilon(3,:) = (96.7).*(.1093^2).*lam2./(lam2 - (.1093^2))...
+                     -(2.41*10^-3).*(3.63657^2).*lam2./(lam2 - (3.63657^2)) + 1;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+%        alpha(1,2,:) = Lam.^3.*(.023)./(lam2 - 10^2).^2;
+%        alpha(2,1,:) = alpha(1,2,:);    
+
+       case 'LAS2new'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.937935681049280).*(0.108431583050404^2).*lam2./(lam2 - (0.108431583050404^2))...
+                     -(0.005700000000039).*(3.818398499999960^2).*lam2./(lam2 - (3.818398499999960^2)) + 0.995489033827392;
+       epsilon(2,:) = (96.183800171367180).*(0.108939220364915^2).*lam2./(lam2 - (0.108939220364915^2))...
+                     -(0.006194999999961).*(7.993205000000040^2).*lam2./(lam2 - (7.993205000000040^2)) + 1.009294297881034;
+%        epsilon(3,:) = (96.7).*(.1093^2).*lam2./(lam2 - (.1093^2))...
+%                      -(6*10^-3).*(3.63657^2).*lam2./(lam2 - (3.63657^2)) + .9955;
+       epsilon(3,:) = (1.015349768611619e+02).*(0.108046852127099^2).*lam2./(lam2 - (0.108046852127099^2))...
+                     -(0.005700000000022).*(3.818398499999978^2).*lam2./(lam2 - (3.818398499999978^2)) + 0.965421081441591;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(-0.0984)./(lam2 - 183.3658^2)^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'LAS2new2'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.625409201618440).*(0.108447555149976^2).*lam2./(lam2 - (0.108447555149976^2))...
+                     -(0.005666581006640).*(3.882673208384128^2).*lam2./(lam2 - (3.882673208384128^2)) + 0.997378732258383;
+       epsilon(2,:) = (96.467877752995340).*(0.108806291925210^2).*lam2./(lam2 - (0.108806291925210^2))...
+                     -(0.006237456365971).*(7.853890638564415^2).*lam2./(lam2 - (7.853890638564415^2)) + 1.007219004397309;
+%        epsilon(3,:) = (1.029733127461798e+02).*(0.107607864148321^2).*lam2./(lam2 - (0.107607864148321^2))...
+%                      -(0.005420821020471).*(3.947223791605979^2).*lam2./(lam2 - (3.947223791605979^2)) + 0.956931460645550;
+%        lam2 = Lam.^2;
+%        alpha = zeros(3,3,k);
+%        alpha(1,2,:) = Lam.^3*(-0.0984)./(lam2 - 183.3658^2).^2;
+%        alpha(2,1,:) = alpha(1,2,:);
+       epsilon(3,:) = (91.416648660150910).*(0.110370892522055^2).*lam2./(lam2 - (0.110370892522055^2))...
+                     -(0.002710412176867).*(5.120776283218234^2).*lam2./(lam2 - (5.120776283218234^2)) + 1.037761967669069;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(-0.08501033110472)./(lam2 - 100^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       %-0.077242070838829
+       %1.777265405950996e+02
+       
+       case 'LASswitch2'
+       n = ones(3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.625409201618440).*(0.108447555149976^2).*lam2./(lam2 - (0.108447555149976^2))...
+                     -(0.005666581006640).*(3.882673208384128^2).*lam2./(lam2 - (3.882673208384128^2)) + 0.997378732258383;
+       epsilon(2,:) = (96.467877752995340).*(0.108806291925210^2).*lam2./(lam2 - (0.108806291925210^2))...
+                     -(0.006237456365971).*(7.853890638564415^2).*lam2./(lam2 - (7.853890638564415^2)) + 1.007219004397309;
+%        epsilon(1,:) = (99.471287457498360).*(0.111070461982814^2).*lam2./(lam2 - (0.111070461982814^2))...
+%                      -(0.007498722859134).*(1.030622710830620^2).*lam2./(lam2 - (1.030622710830620^2)) + 0.989551769235715;
+%        epsilon(2,:) = (95.154929608812670).*(0.111747451384191^2).*lam2./(lam2 - (0.111747451384191^2))...
+%                      -(0.008687154530714).*(21.454899552549005^2).*lam2./(lam2 - (21.454899552549005^2)) + 1.022112920891139;
+       epsilon(3,:) = (91.416648660150910).*(0.110370892522055^2).*lam2./(lam2 - (0.110370892522055^2))...
+                     -(0.002710412176867).*(5.120776283218234^2).*lam2./(lam2 - (5.120776283218234^2)) + 1.037761967669069;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(0.00201033110472)./(lam2 - 25^2).^2+ Lam.^3*(0.000501033110472)./(lam2 - 1000^2).^2+0.00006;
+       alpha(2,1,:) = alpha(1,2,:);
+       n(1,:) = sqrt(epsilon(1,:));
+       n(2,:) = sqrt(epsilon(2,:));
+       n(3,:) = sqrt(epsilon(3,:));
+       n(1,:) = n(2,:)-(1*(n(1,:)-n(2,:)));
+       epsilon(1,:) = (n(1,:)+0.0044).^2;
+       epsilon(2,:) = (n(2,:)+0.0044).^2;
+       epsilon(3,:) = (n(3,:)+0.0016).^2;
+       epsilona(3,:) = epsilon(2,:);
+       epsilon(2,:) = epsilon(3,:);
+       epsilon(3,:) = epsilona(3,:);
+       
+       case 'LASswitch3'
+       n = ones(3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.625409201618440).*(0.108447555149976^2).*lam2./(lam2 - (0.108447555149976^2))...
+                     -(0.005666581006640).*(3.882673208384128^2).*lam2./(lam2 - (3.882673208384128^2)) + 0.997378732258383;
+       epsilon(2,:) = (96.467877752995340).*(0.108806291925210^2).*lam2./(lam2 - (0.108806291925210^2))...
+                     -(0.006237456365971).*(7.853890638564415^2).*lam2./(lam2 - (7.853890638564415^2)) + 1.007219004397309;
+%        epsilon(1,:) = (99.471287457498360).*(0.111070461982814^2).*lam2./(lam2 - (0.111070461982814^2))...
+%                      -(0.007498722859134).*(1.030622710830620^2).*lam2./(lam2 - (1.030622710830620^2)) + 0.989551769235715;
+%        epsilon(2,:) = (95.154929608812670).*(0.111747451384191^2).*lam2./(lam2 - (0.111747451384191^2))...
+%                      -(0.008687154530714).*(21.454899552549005^2).*lam2./(lam2 - (21.454899552549005^2)) + 1.022112920891139;
+       epsilon(3,:) = (91.416648660150910).*(0.110370892522055^2).*lam2./(lam2 - (0.110370892522055^2))...
+                     -(0.002710412176867).*(5.120776283218234^2).*lam2./(lam2 - (5.120776283218234^2)) + 1.037761967669069;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(0.019452924492729)./(lam2 - 24.924427086650950^2).^2+ Lam.^3*(5.000000000000000e-04)./(lam2 - 1000^2).^2-4.100367739276284e-04;
+       alpha(2,1,:) = alpha(1,2,:);
+       n(1,:) = sqrt(epsilon(1,:));
+       n(2,:) = sqrt(epsilon(2,:));
+       n(3,:) = sqrt(epsilon(3,:));
+       n(1,:) = n(2,:)-(1*(n(1,:)-n(2,:)));
+       epsilon(1,:) = (n(1,:)+0.0044).^2;
+       epsilon(2,:) = (n(2,:)+0.0044).^2;
+       epsilon(3,:) = (n(3,:)+0.0016).^2;
+       epsilona(3,:) = epsilon(2,:);
+       epsilon(2,:) = epsilon(3,:);
+       epsilon(3,:) = epsilona(3,:);
+       
+       case 'LAS2raisez'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.625409201618440).*(0.108447555149976^2).*lam2./(lam2 - (0.108447555149976^2))...
+                     -(0.005666581006640).*(3.882673208384128^2).*lam2./(lam2 - (3.882673208384128^2)) + 0.997378732258383;
+       epsilon(2,:) = (96.467877752995340).*(0.108806291925210^2).*lam2./(lam2 - (0.108806291925210^2))...
+                     -(0.006237456365971).*(7.853890638564415^2).*lam2./(lam2 - (7.853890638564415^2)) + 1.007219004397309;
+%        epsilon(3,:) = (1.029733127461798e+02).*(0.107607864148321^2).*lam2./(lam2 - (0.107607864148321^2))...
+%                      -(0.005420821020471).*(3.947223791605979^2).*lam2./(lam2 - (3.947223791605979^2)) + 0.956931460645550;
+%        lam2 = Lam.^2;
+%        alpha = zeros(3,3,k);
+%        alpha(1,2,:) = Lam.^3*(-0.0984)./(lam2 - 183.3658^2).^2;
+%        alpha(2,1,:) = alpha(1,2,:);
+       epsilon(3,:) = (91.416648660150910).*(0.110370892522055^2).*lam2./(lam2 - (0.110370892522055^2))...
+                     -(0.002710412176867).*(5.120776283218234^2).*lam2./(lam2 - (5.120776283218234^2)) + 1.037761967669069;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(-0.08501033110472)./(lam2 - 100^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       %-0.077242070838829
+       %1.777265405950996e+02
+       
+       case 'LAS2new2nogyration'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.625409201618440).*(0.108447555149976^2).*lam2./(lam2 - (0.108447555149976^2))...
+                     -(0.005666581006640).*(3.882673208384128^2).*lam2./(lam2 - (3.882673208384128^2)) + 0.997378732258383;
+       epsilon(2,:) = (96.467877752995340).*(0.108806291925210^2).*lam2./(lam2 - (0.108806291925210^2))...
+                     -(0.006237456365971).*(7.853890638564415^2).*lam2./(lam2 - (7.853890638564415^2)) + 1.007219004397309;
+%        epsilon(3,:) = (1.029733127461798e+02).*(0.107607864148321^2).*lam2./(lam2 - (0.107607864148321^2))...
+%                      -(0.005420821020471).*(3.947223791605979^2).*lam2./(lam2 - (3.947223791605979^2)) + 0.956931460645550;
+%        lam2 = Lam.^2;
+%        alpha = zeros(3,3,k);
+%        alpha(1,2,:) = Lam.^3*(-0.0984)./(lam2 - 183.3658^2).^2;
+%        alpha(2,1,:) = alpha(1,2,:);
+       epsilon(3,:) = (91.416648660150910).*(0.110370892522055^2).*lam2./(lam2 - (0.110370892522055^2))...
+                     -(0.002710412176867).*(5.120776283218234^2).*lam2./(lam2 - (5.120776283218234^2)) + 1.037761967669069;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+%        alpha(1,2,:) = Lam.^3*(-0.077242070838829)./(lam2 - 1.777265405950996e+02^2).^2;
+%        alpha(2,1,:) = alpha(1,2,:);
+
+        case 'LAS2'
+       lam2 = (Lam/1000).^2;
+       test=-0.0045;
+       epsilon(1,:) = (96.7).*(.1093^2).*lam2./(lam2 - (.1093^2))...
+                     -(6*10^-3).*(3.63657^2).*lam2./(lam2 - (3.63657^2)) + .9981-test;
+       epsilon(2,:) = (98).*(.108698^2).*lam2./(lam2 - (.108698^2))...
+                     -(5.9*10^-3).*(8.4139^2).*lam2./(lam2 - (8.4139^2)) + .9877-test;
+       epsilon(3,:) = (96.7).*(.1093^2).*lam2./(lam2 - (.1093^2))...
+                     -(6*10^-3).*(3.63657^2).*lam2./(lam2 - (3.63657^2)) + .9955;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(-0.0984)./(lam2 - 183.3658^2).^2;
+       alpha(2,1,:) = alpha(1,2,:); 
+
+       case 'LAS3' %Just Ex and Ez are solved- Ey and alpha are random at this point so it only models correctly along
+           %the y-axis - which is normal to the main growth facet
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.119227430078920).*(0.126816358780692^2).*lam2./(lam2 - (0.126816358780692^2))...
+                     -(0.024946730347596).*(1.663869446009842e+02^2).*lam2./(lam2 - (1.663869446009842e+02^2)) + 1;
+       epsilon(2,:) = (98.120862165734320).*(0.127010297962109^2).*lam2./(lam2 - (0.127010297962109^2))...
+                     -(0.008109264014839).*(1.366449249764731^2).*lam2./(lam2 - (1.366449249764731^2)) + 1;
+       epsilon(3,:) = (98.120862165734320).*(0.127010297962109^2).*lam2./(lam2 - (0.127010297962109^2))...
+                     -(0.008109264014839).*(1.366449249764731^2).*lam2./(lam2 - (1.366449249764731^2)) + 1;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);  
+       alpha(1,2,:) = Lam.^3.*(.03)./(lam2 - 100^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'LAS4'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (98.119227430078920).*(0.126816358780692^2).*lam2./(lam2 - (0.126816358780692^2))...
+                     -(0.024946730347596).*(1.663869446009842e+02^2).*lam2./(lam2 - (1.663869446009842e+02^2)) + 1;
+       epsilon(2,:) = (98.119227430078920).*(0.126816358780692^2).*lam2./(lam2 - (0.126816358780692^2))...
+                     -(0.024946730347596).*(1.663869446009842e+02^2).*lam2./(lam2 - (1.663869446009842e+02^2)) + 1;
+       epsilon(3,:) = (98.120862165734320).*(0.127010297962109^2).*lam2./(lam2 - (0.127010297962109^2))...
+                     -(0.008109264014839).*(1.366449249764731^2).*lam2./(lam2 - (1.366449249764731^2)) + 1;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);  
+       alpha(1,2,:) = Lam.^3.*(.03)./(lam2 - 100^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'tset' 
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 2.25 + 0.0001*i;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 2.25 + 0.0002*i;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);  
+       alpha(1,1,:) = Lam.^3.*(.03)./(lam2 - 100^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       alpha(3,3,:) = Lam.^3.*(-0.02)/(lam2 - 100^2).^2;
+       
+       case 'AgGaSe2'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (2.2057.*lam2./(lam2 - 0.1879))...
+                     +(1.8377.*lam2./(lam2 - 1600)) + 4.6453;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = (1.3970.*lam2./(lam2 - 0.2845))...
+                     +(1.9282.*lam2./(lam2 - 1600)) + 5.2912;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);  
+       alpha(1,2,:) = 2.66e-4;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'AgGaSe2nogyration'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = (2.2057.*lam2./(lam2 - 0.1879))...
+                     +(1.8377.*lam2./(lam2 - 1600)) + 4.6453;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = (1.3970.*lam2./(lam2 - 0.2845))...
+                     +(1.9282.*lam2./(lam2 - 1600)) + 5.2912;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);  
+       alpha(1,2,:) = 0;
+       alpha(2,1,:) = alpha(1,2,:); 
+       
+       case 'freshstart' %benzil
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.541046871130628*lam2./(lam2 - 0.072822053327188)...
+                     +0.255899959764378*lam2./(lam2 - 100) + 1.890529047469396;%2.44
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.503669447107464*lam2./(lam2 - 0.066542213163166)...
+                     +0.001415664613394*lam2./(lam2 - 100) + 2.004776442815806;%2.62
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.017059739312464)./(lam2 - 2.157892857743254e+02^2).^2 + Lam.^3*(-1.341371835701795e-04)./(lam2 - 4.084821003928518e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.033015398406754)./(lam2 - 1.531356713166533e+02^2).^2 + Lam.^3*(6.514866508507881e-04)./(lam2 - 2.161626302447138e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest' %benzil 
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.729224459571322*lam2./(lam2 - 0.087140837010784)...
+                     +0.185711135753055*lam2./(lam2 - 100) + 1.826967893642193;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.689625986331004*lam2./(lam2 - 0.084109739009957)...
+                     +0.004196401627393*lam2./(lam2 - 100) + 1.951798989892295;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016547281717997)./(lam2 - 2.317628819098838e+02^2).^2 + Lam.^3*(-3.304622557560034e-04)./(lam2 - 3.945051533079043e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.059336513225478)./(lam2 - 1.531357009741711e+02^2).^2 + Lam.^3*(6.483417131743776e-04)./(lam2 - 1.847681441567243e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest2' %benzil 
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.686939945820836*lam2./(lam2 - 0.087038849741090)...
+                     +0.172821577216780*lam2./(lam2 - 100) + 1.871246657133500;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.643087602136918*lam2./(lam2 - 0.084109862477415)...
+                     +0.003405045062639*lam2./(lam2 - 100) + 1.999823184200650;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016547281717997)./(lam2 - 2.317628819098838e+02^2).^2 + Lam.^3*(-3.304622557560034e-04)./(lam2 - 3.945051533079043e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.066446988289241)./(lam2 - 1.531357009741705e+02^2).^2 + Lam.^3*(6.483417131874935e-04)./(lam2 - 2.204872696940715e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest3' %benzil 
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.676217553695385*lam2./(lam2 - 0.085305483832734)...
+                     +0.173987434066468*lam2./(lam2 - 100) + 1.868683889285454;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.632825051087883*lam2./(lam2 - 0.082115050153431)...
+                     +0.001462278013998*lam2./(lam2 - 100) + 1.995918623868940;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016547281717997)./(lam2 - 2.317628819098838e+02^2).^2 + Lam.^3*(-3.304622557560034e-04)./(lam2 - 3.945051533079043e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.058013228391286)./(lam2 - 1.531357009741711e+02^2).^2 + Lam.^3*(6.483417131844874e-04)./(lam2 - 2.234066465460315e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest4' %benzil
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.676217553695385*lam2./(lam2 - 0.085305483832734)...
+                     +0.173987434066468*lam2./(lam2 - 100) + 1.868683889285454;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.632825051087883*lam2./(lam2 - 0.082115050153431)...
+                     +0.001462278013998*lam2./(lam2 - 100) + 1.995918623868940;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016597281717997)./(lam2 - 2.317628819098838e+02^2).^2 + Lam.^3*(-3.304622557560034e-04)./(lam2 - 3.945051533079043e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.0701157)./(lam2 - 1.531357009741711e+02^2).^2 + Lam.^3*(20.483417131844874e-04)./(lam2 - 3.954066465460315e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest5' %benzil
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.676217553695385*lam2./(lam2 - 0.085305483832734)...
+                     +0.173987434066468*lam2./(lam2 - 100) + 1.868683889285454;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.632825051087883*lam2./(lam2 - 0.082115050153431)...
+                     +0.001462278013998*lam2./(lam2 - 100) + 1.995918623868940;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016777187423415)./(lam2 - 2.290289539236296e+02^2).^2 + Lam.^3*(-3.207405523514229e-04)./(lam2 - 3.922472120237578e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.080886843724383)./(lam2 - 2.416244461675913e+02^2).^2 + Lam.^3*(8.671490682867002e-04)./(lam2 - 4.277253188161872e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest6' %benzil - this is the one that did the covariance matrix for full MM fitting on 7/31 with Shane
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.531816944839314*lam2./(lam2 - 0.062401547639840)...
+                     +0.360997872723800*lam2./(lam2 - 100) + 2.061857310112891;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.564615667739742*lam2./(lam2 - 0.047584900292937)...
+                     -0.005206322301393*lam2./(lam2 - 100) + 2.113008405941299;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016449317237346)./(lam2 - 2.314990802708354e+02^2).^2 + Lam.^3*(-2.738242732038322e-04)./(lam2 - 3.982307798693255e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.056522092013167)./(lam2 - 2.095515110515489e+02^2).^2 + Lam.^3*(0.001954938762610)./(lam2 - 3.870259037303986e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest7' %benzil - this is the updated OR after fitting 'freshest6' to CB for all 4 AOIs
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.531816944839314*lam2./(lam2 - 0.062401547639840)...
+                     +0.360997872723800*lam2./(lam2 - 100) + 2.061857310112891;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.564615667739742*lam2./(lam2 - 0.047584900292937)...
+                     -0.005206322301393*lam2./(lam2 - 100) + 2.113008405941299;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016449317237346)./(lam2 - 2.314990802708354e+02^2).^2 + Lam.^3*(-2.738242732038322e-04)./(lam2 - 3.982307798693255e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.052126028755477)./(lam2 - 2.452939419564661e+02^2).^2 + Lam.^3*(0.002780832754099)./(lam2 - 3.887636248346170e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest8' %benzil - this is the updated OR after fitting 'freshest6' to CB for 3 AOIs (No 10 deg)
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.531816944839314*lam2./(lam2 - 0.062401547639840)...
+                     +0.360997872723800*lam2./(lam2 - 100) + 2.061857310112891;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.564615667739742*lam2./(lam2 - 0.047584900292937)...
+                     -0.005206322301393*lam2./(lam2 - 100) + 2.113008405941299;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016449317237346)./(lam2 - 2.314990802708354e+02^2).^2 + Lam.^3*(-2.738242732038322e-04)./(lam2 - 3.982307798693255e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.052691821446056)./(lam2 - 2.452987316202554e+02^2).^2 + Lam.^3*(0.002934237856001)./(lam2 - 3.877966932977814e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest9' %benzil - this is the updated OR after fitting 'freshest6' to CB for 2 AOIs (No 0 or 10 deg)
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.531816944839314*lam2./(lam2 - 0.062401547639840)...
+                     +0.360997872723800*lam2./(lam2 - 100) + 2.061857310112891;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.564615667739742*lam2./(lam2 - 0.047584900292937)...
+                     -0.005206322301393*lam2./(lam2 - 100) + 2.113008405941299;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016449317237346)./(lam2 - 2.314990802708354e+02^2).^2 + Lam.^3*(-2.738242732038322e-04)./(lam2 - 3.982307798693255e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.052691821446056)./(lam2 - 2.452987316202554e+02^2).^2 + Lam.^3*(0.002934237856001)./(lam2 - 3.877966932977814e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+
+       case 'freshest10' %benzil - this is a new MM fit with permittivity and angles fixed to 'freshest 3'
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.676217553695385*lam2./(lam2 - 0.085305483832734)...
+                     +0.173987434066468*lam2./(lam2 - 100) + 1.868683889285454;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.632825051087883*lam2./(lam2 - 0.082115050153431)...
+                     +0.001462278013998*lam2./(lam2 - 100) + 1.995918623868940;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016438393624774)./(lam2 - 2.317404343575740e+02^2).^2 + Lam.^3*(-2.748142126033262e-04)./(lam2 - 3.982754257279537e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.053788667113594)./(lam2 - 2.318969478079445e+02^2).^2 + Lam.^3*(0.001815240084191)./(lam2 - 3.933594729885979e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest11' %benzil - this is a new CB fit with permittivity set to 'freshest10' and all four AOIs
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.676217553695385*lam2./(lam2 - 0.085305483832734)...
+                     +0.173987434066468*lam2./(lam2 - 100) + 1.868683889285454;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.632825051087883*lam2./(lam2 - 0.082115050153431)...
+                     +0.001462278013998*lam2./(lam2 - 100) + 1.995918623868940;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016438393624774)./(lam2 - 2.317404343575740e+02^2).^2 + Lam.^3*(-2.748142126033262e-04)./(lam2 - 3.982754257279537e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.050457063682328)./(lam2 - 255.264570182920^2).^2 + Lam.^3*(0.00214164786081000)./(lam2 - 3.966505584364750e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'freshest12' %benzil - this is a new CB fit with permittivity set to 'freshest10' and just -20 and -30 AOIs
+       alpha = zeros(3,3,k);
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.676217553695385*lam2./(lam2 - 0.085305483832734)...
+                     +0.173987434066468*lam2./(lam2 - 100) + 1.868683889285454;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 0.632825051087883*lam2./(lam2 - 0.082115050153431)...
+                     +0.001462278013998*lam2./(lam2 - 100) + 1.995918623868940;
+       lam2 = Lam.^2;
+       alpha(1,1,:) = Lam.^3*(0.016438393624774)./(lam2 - 2.317404343575740e+02^2).^2 + Lam.^3*(-2.748142126033262e-04)./(lam2 - 3.982754257279537e+02^2).^2;
+       alpha(3,3,:) = Lam.^3*(-0.050989039593550)./(lam2 - 2.530976351380011e+02^2).^2 + Lam.^3*(0.002076732581983)./(lam2 - 3.972097028892381e+02^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);
+       
+       case 'LASfake'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.5;
+       epsilon(2,:) = 1.5;
+       epsilon(3,:) = 1.5;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(.023)./(lam2 - 10^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);   
+       
+       case 'KTCfake'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.5;
+       epsilon(2,:) = 1.5;
+       epsilon(3,:) = 1.5;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(.023)./(lam2 - 10^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC1' %This has some reasonable estimate of LB (that crosses around 500nm) and a guess at alpha - good starting place
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 3.37387*lam2./(lam2 - 0.0127002)...
+                 +0.500036*lam2./(lam2 - 50.7661) + 1.26344;
+       epsilon(3,:) = 1.3387*lam2./(lam2 - 0.0127002)...
+                     +3.0036*lam2./(lam2 - 20) + 3.44475;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.115671784995061)./(lam2 - 10^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC2' %This result works well for both AOI=10 measurements
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 3.353988410294241*lam2./(lam2 - 0.012688346755989)...
+                 +0.092532198616040*lam2./(lam2 - 35.471368714246790) + 1.434860680871254;
+       epsilon(2,:) = epsilon(1,:);
+       epsilon(3,:) = 1.466157127117274*lam2./(lam2 - 0.011540001829222)...
+                     +3.755971303388707*lam2./(lam2 - 28.042721226086000) + 3.460756525787457;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(0.537244930247597)./(lam2 - 10^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC3'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 5.312166269757329*lam2./(lam2 - 0.076853946225591)...
+                 +0.925315072795033*lam2./(lam2 - 5.959798717253475) + 12.770936566683307;
+       epsilon(3,:) = 5.705074064371249*lam2./(lam2 - 0.075705387501603)...
+                     +1.097562084904624*lam2./(lam2 - 2.675241974706786e+02) + 12.220327018766564;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(0.095423544456707)./(lam2 - 10^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC4' %This result was from Labview of complete atm-2-158-4 and 5; note that phi=138 and 168 (opposite sign in transmission); red chi squared = 86.2378
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 3.26678*lam2./(lam2 - 0.00437229)...
+                 -0.22242*lam2./(lam2 - 68.8329) + 1.50039;
+       epsilon(3,:) = 1.43877*lam2./(lam2 - 0.00250987)...
+                     +10*lam2./(lam2 - 190.284) + 3.38548;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(0.02)./(lam2 - 285^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+
+       case 'KTC5' %This result was from Labview of complete atm-2-159-5; note that only the 138 and 183 ones work because 93 had low light; red chi squared ~ 55
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.12326*lam2./(lam2 - 0.0302663)...
+                 +0.730936*lam2./(lam2 - 152.433) + 1.44695;
+       epsilon(3,:) = 1.11695*lam2./(lam2 - 0.0286861)...
+                     +1.41079*lam2./(lam2 - 131.002) + 1.46416;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.0320285)./(lam2 - 98.9324^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC6' %This result was from Labview of complete atm-2-160-6 for AOI = 20, 30; red chi sq = 8.31
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.816801*lam2./(lam2 - 0.0210353)...
+                 -20*lam2./(lam2 - 113.604) + 1.40097;
+       epsilon(3,:) = 0.882552*lam2./(lam2 - 0.0178962)...
+                     -17.173*lam2./(lam2 - 99.6326) + 1.34269;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.02207)./(lam2 - 120^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC7' %This result was from refining 'KTC6' in Matlab with data atm-2-160-6 for AOI = 20, 30, and biasing M12 and M21 x10 
+           %so we can get closer to the raw permittivity values; red chi
+           %sq about 8
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.889986517018237*lam2./(lam2 - 0.022459563750142)...
+                 -12.336221626456034*lam2./(lam2 - 1.218337731615357e+02) + 1.483981928977877;
+       epsilon(3,:) = 0.936003905792527*lam2./(lam2 - 0.019685726721509)...
+                     -10.563059822745487*lam2./(lam2 - 1.090778567395444e+02) + 1.446433280485206;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.02207)./(lam2 - 120^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC8' %This result was from refining 'KTC6' in Matlab with data atm-2-160-6 for AOI = 20, 30, and biasing M12 and M21 x10 
+           %so we can get closer to the raw permittivity values AND setting
+           %the AOI offset close to 0 deg
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.839121687786291*lam2./(lam2 - 0.022239664384967)...
+                 -12.301190325900890*lam2./(lam2 - 1.221781770630421e+02) + 1.388138307563861;
+       epsilon(3,:) = 0.881005520050947*lam2./(lam2 - 0.019685784869729)...
+                     -10.627069568262446*lam2./(lam2 - 1.095760717418368e+02) + 1.353405283540388;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+%        alpha(1,2,:) = Lam.^3.*(-0.02207)./(lam2 - 120^2).^2;
+       alpha(1,2,:) = Lam.^3.*(-0.0127)./(lam2 - 180^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC9' %This result was from refining 'KTC6' in Matlab with data atm-2-160-6 for AOI = 20, 30, and biasing M12 and M21 x10 
+           %so we can get closer to the raw permittivity values AND setting
+           %the AOI offset close to 0 deg
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.816831*lam2./(lam2 - 0.0212451)...
+                -10.2822*lam2./(lam2 - 80) + 1.39264;
+       epsilon(3,:) = 0.881093*lam2./(lam2 - 0.0180745)...
+                     -15.5619*lam2./(lam2 - 124.3) + 1.33598;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-.0125)./(lam2 - 180^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC10' %
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.460844746325887*lam2./(lam2 - 0.025668038038009)...
+                 -11.471464109795908*lam2./(lam2 - 1.949646937793981e+02) + 0.890381484662260;
+       epsilon(3,:) = 0.673262895398060*lam2./(lam2 - 0.018503409711763)...
+                     -5.385094257160432*lam2./(lam2 - 90.196668383266940) + 0.676709089376156;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(0.008071694973163)./(lam2 - 2.634559541880037e+02^2).^2+Lam.^3.*(-0.004240746898086)./(lam2 - 2.712697699561050e+02^2).^2;;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC11' %Best Result so far - red chi squared 56 and fits CB well
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.933857465850492*lam2./(lam2 - 0.040281001099259)...
+                -2.722194324802966*lam2./(lam2 - 1.328957420545211e+02) + 1.230744691977769;
+       epsilon(3,:) = 0.906201520118443*lam2./(lam2 - 0.039800871223104)...
+                     -3.253946265415864*lam2./(lam2 - 2.120967389983692e+02) + 1.266976;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.01400)./(lam2 - 180^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC12' %KTC 11 with full permittivity tensor fit to AOIs -30 through 30; Euler = 49.5674 -9.1907 53.5;
+           %Red chi squared is 20.6
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.835164*lam2./(lam2 - 0.0227635)...
+                -3.3469*lam2./(lam2 - 89.5139) + 1.52111;
+       epsilon(3,:) = 0.87511*lam2./(lam2 - 0.0199005)...
+                     -4.54426*lam2./(lam2 - 138.19) + 1.48975;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.01320)./(lam2 - 180^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC13' %KTC 12 with full permittivity tensor fit to AOIs -30 through 30; Euler = 49.5784 9.19197 48.8;
+           %Red chi squared is 8.7 using best guess at systematic error for
+           %each MM elemetn
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.782311065799961*lam2./(lam2 - 0.021414423045220)...
+                -1.616529391367428*lam2./(lam2 - 77.918825619011060) + 1.605067963699554;
+       epsilon(3,:) = 0.848443907439110*lam2./(lam2 - 0.017857249673799)...
+                     -3.796642247853658*lam2./(lam2 - 2.334388026487873e+02) + 1.547556665745244;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.0134641)./(lam2 - 180.374^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC14' %KTC 13 but fitting alpha to CB spectra with Euler [44.484148719623210 -9.277671139403381 54.606737094682494]
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.782311065799961*lam2./(lam2 - 0.021414423045220)...
+                -1.616529391367428*lam2./(lam2 - 77.918825619011060) + 1.605067963699554;
+       epsilon(3,:) = 0.848443907439110*lam2./(lam2 - 0.017857249673799)...
+                     -3.796642247853658*lam2./(lam2 - 2.334388026487873e+02) + 1.547556665745244;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.015908944269495)./(lam2 - 1.359851582906354e+02^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'KTC15' %KTC 14 but fitted a12 to polar map of CB 
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.782311065799961*lam2./(lam2 - 0.021414423045220)...
+                -1.616529391367428*lam2./(lam2 - 77.918825619011060) + 1.605067963699554;
+       epsilon(3,:) = 0.848443907439110*lam2./(lam2 - 0.017857249673799)...
+                     -3.796642247853658*lam2./(lam2 - 2.334388026487873e+02) + 1.547556665745244;
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.01615)./(lam2 - 1.359851582906354e+02^2).^2;
+       alpha(2,1,:) = alpha(1,2,:);
+       
+                 case 'AgSGa' %from literature (oriol 2012 reckoning electromagnetic principles, dispersion formulas from Takaoko and Kato 1999))
+       lam2 = (Lam/1000).^2; % ? "0.58 < lambda < 10.59" so micrometers - Takaoka and Kato
+       %epsilon(1,:) = (5.7975+(0.2311./(lam2-0.0688))-0.00257*lam2);
+       %epsilon(3,:)= (5.5436+(0.2230./((lam2-0.0946)-0.00261*lam2)));
+       epsilon(1,:)=4.6187+(1.3758)./(1-(0.1205)./(lam2))+(199.28)./(1-950./lam2);
+       epsilon(3,:)=5.5373+(0.5685)./(1-(0.1725)./(lam2))+(636.85)./(1-950./lam2);
+       epsilon(2,:) = epsilon(1,:);
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3*(0.061)./(lam2 - 418.8^2).^2; %("for lambda expressed in nanometers")
+       alpha(2,1,:) = alpha(1,2,:);
+    
+       case 'Agnanofake'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 1.5;
+       epsilon(2,:) = 1.5;
+       epsilon(3,:) = 1.5;
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,1,:) = Lam.^3.*(.023)./(lam2 - 10^2).^2;
+       alpha(2,2,:) = alpha(1,1,:);   
+       alpha(3,3,:) = alpha(1,1,:);    
+       
+       case 'Bart'
+       lam2 = (Lam/1000).^2;
+       epsilon(1,:) = 0.782311065799961*lam2./(lam2 - 0.021414423045220)...
+                -1.616529391367428*lam2./(lam2 - 77.918825619011060)...
+                +(-.001*i)*exp(-1*((Lam-540).^2)./(2*(30^2)));
+       epsilon(3,:) = 0.782311065799961*lam2./(lam2 - 0.021414423045220)...
+                -1.616529391367428*lam2./(lam2 - 77.918825619011060) + 2.45067963699554...
+                +(.002*i)*exp(-1*((Lam-540).^2)./(2*(30^2)));
+       epsilon(2,:) = 0.782311065799961*lam2./(lam2 - 0.021414423045220)...
+                -1.616529391367428*lam2./(lam2 - 77.918825619011060) + 2.55067963699554...
+                +(.003*i)*exp(-1*((Lam-540).^2)./(2*(30^2)));
+       lam2 = Lam.^2;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = Lam.^3.*(-0.016)./(lam2 - 135^2).^2+(-0.04*i*Lam.^3.*(1)./(lam2 - 550.1^2).^2)
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'BartPaper'
+       epsilon(1,:) = 2.2;
+       epsilon(2,:) = 2.5;
+       epsilon(3,:) = 2.4;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = 10^(-4);
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'BartPaper2'
+%        epsilon(1,:) = 2.2 + i*0.08;
+%        epsilon(2,:) = 2.5 + i*0.07;
+%        epsilon(3,:) = 2.4 + i*0.06;
+       epsilon(1,:) = 2.2 + i*0.08;
+       epsilon(2,:) = 2.2 + i*0.08;
+       epsilon(3,:) = 2.2 + i*0.08;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = 10^(-4);
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'BartPaper3'
+%        epsilon(1,:) = 2.2 + i*0.08;
+%        epsilon(2,:) = 2.5 + i*0.07;
+%        epsilon(3,:) = 2.4 + i*0.06;
+       epsilon(1,:) = 2.2 + i*0.08;
+       epsilon(2,:) = 2.2 + i*0.08;
+       epsilon(3,:) = 2.2 + i*0.08;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = 10^(-4)+i*10^(-4);
+       alpha(2,1,:) = alpha(1,2,:);
+       
+       case 'BartPaper4'
+%        epsilon(1,:) = 2.2 + i*0.08;
+%        epsilon(2,:) = 2.5 + i*0.07;
+%        epsilon(3,:) = 2.4 + i*0.06;
+       epsilon(1,:) = 2.2 + i*0.08;
+       epsilon(2,:) = 2.2 + i*0.08;
+       epsilon(3,:) = 2.2 + i*0.08;
+       alpha = zeros(3,3,k);
+       alpha(1,2,:) = 10^(-4)+2*i*10^(-4);
+       alpha(2,1,:) = alpha(1,2,:);
+             
+end
+end
